@@ -1,2 +1,1 @@
-* linguist-vendored
-*.csharp linguist-vendored=false
+GenerateAStrongPassword/* linguist-vendored
