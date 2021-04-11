@@ -1,0 +1,120 @@
+﻿@{
+    ViewData["Title"] = "Generate A Strong Password";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body background="images/space.jpg">
+    <center>
+        <br />
+        <h1>Generate A Strong Password</h1>
+        <br />
+        <div>
+            <input type="text" id="passwordLength" maxlength="2"
+                onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                placeholder="Password length (from 8 to 30)">
+        </div>
+        &nbsp;
+        <div>
+            <input type="button" value="Generate" onclick="getPassword();">
+        </div>
+        &nbsp;
+        <div>
+            <input type="text" id="password" placeholder="Password" readonly>
+        </div>
+    </center>
+</body>
+
+</html>
+
+<style>
+    input {
+        box-sizing: border-box;
+        height: 10%;
+        width: 50%;
+    }
+
+    h1 {
+        color: white;
+        font-family: papyrus;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    /*
+    Properties of a strong password:
+    * Between eight and thirty characters
+    * (At least) one uppercase letter
+    * (At least) one lowercase letter
+    * (At least) one number
+    * (At least) one special character
+    */
+    function getPassword() {
+        var password = "";
+        var length = document.getElementById("passwordLength").value;
+
+        if (length < 8 || length > 30) {
+            alert("A strong password must be between eight and thirty characters");
+            return;
+        }
+
+        do {
+            password = generatePassword(length)
+        } while (password == "")
+
+        document.getElementById("password").value = password;
+    }
+
+    //The strong password will be generated
+    function generatePassword(length) {
+        //Arrays will be used in the generation of password is defined
+        var uppercaseLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        var lowercaseLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var specialCharacters = ["!", "#", "?", "$", "&", "%", "^"];
+
+        var passwordElements = [];
+        var focusedArray = [];
+        var strongPassword = "";
+
+        var u, l, n, s;
+        u = l = n = s = 0;
+
+        for (var i = 0; i < length; i++) {
+            var caseNumber = Math.floor(Math.random() * 4)
+
+            switch (caseNumber) {
+                case 0:
+                    focusedArray = uppercaseLetters.slice(0);
+                    u++;
+                    break;
+                case 1:
+                    focusedArray = lowercaseLetters.slice(0);
+                    l++;
+                    break;
+                case 2:
+                    focusedArray = numbers.slice(0);
+                    n++;
+                    break;
+                case 3:
+                    focusedArray = specialCharacters.slice(0);
+                    s++;
+            }
+
+            passwordElements.push(focusedArray[Math.floor(Math.random() * focusedArray.length)]);
+        }
+
+        //If all arrays are used at least once, the password is definitely strong
+        if (u != 0 && l != 0 && n != 0 && s != 0) {
+            passwordElements.forEach(function (item) {
+                strongPassword += item;
+            });
+        }
+
+        return strongPassword;
+    }
+</script>
