@@ -1,2 +1,2 @@
-$ cat .gitattributes
-*.html linguist-language=CSharp
+* linguist-vendored
+*.csharp linguist-vendored=false
